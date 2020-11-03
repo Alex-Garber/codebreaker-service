@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.codebreaker.model.entity.entity;
 
-import edu.cnm.deepdive.codebreaker.model.entity.User;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
