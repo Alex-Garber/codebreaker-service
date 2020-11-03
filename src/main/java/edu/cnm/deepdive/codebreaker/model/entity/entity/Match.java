@@ -26,7 +26,9 @@ import org.springframework.lang.NonNull;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-@Table(indexes = {
+@Table(
+    name = "tournament",
+    indexes = {
     @Index(columnList = "codeLength"),
     @Index(columnList = "gameCount"),
     @Index(columnList = "started, deadline")
@@ -55,7 +57,7 @@ public class Match {
   private String pool;
 
   @Column(updatable = false)
-  private int gamesCount;
+  private int gameCount;
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -112,12 +114,12 @@ public class Match {
     this.pool = pool;
   }
 
-  public int getGamesCount() {
-    return gamesCount;
+  public int getGameCount() {
+    return gameCount;
   }
 
-  public void setGamesCount(int gamesCount) {
-    this.gamesCount = gamesCount;
+  public void setGameCount(int gamesCount) {
+    this.gameCount = gamesCount;
   }
 
   @NonNull
