@@ -15,10 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.NonNull;
@@ -29,7 +31,6 @@ import org.springframework.lang.NonNull;
     name = "tournament",
     indexes = {
     @Index(columnList = "codeLength"),
-    @Index(columnList = "gameCount"),
     @Index(columnList = "started, deadline")
 
 })
@@ -40,7 +41,7 @@ public class Match {
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @Column(name = "match_id", nullable = false, updatable = false, columnDefinition = " CHAR(16) FOR BIT DATA")
-  private UUID Id;
+  private UUID id;
 
   @NonNull
   @CreationTimestamp
@@ -55,7 +56,7 @@ public class Match {
   @Column(nullable = false,updatable = false)
   private String pool;
 
-  @Column(updatable = false)
+  @Transient
   private int gameCount;
 
   @NonNull
@@ -84,11 +85,15 @@ public class Match {
   @OrderBy("displayName ASC")
   private final List<User> players = new LinkedList<>();
 
+  @NonNull
+  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private final List<Game> games = new LinkedList<>();
+
 
 
   @NonNull
   public UUID getId() {
-    return Id;
+    return id;
   }
 
   @NonNull
@@ -117,8 +122,8 @@ public class Match {
     return gameCount;
   }
 
-  public void setGameCount(int gamesCount) {
-    this.gameCount = gamesCount;
+  public void setGameCount(int gameCount) {
+    this.gameCount = gameCount;
   }
 
   @NonNull
@@ -161,9 +166,12 @@ public class Match {
     return players;
   }
 
-  public enum Criterion{
-    GUESSES_TIME, TIME_GUESSES
+  @NonNull
+  public List<Game> getGames() {
+    return games;
   }
 
-
+  public enum Criterion {
+    GUESSES_TIME, TIME_GUESSES
+  }
 }
