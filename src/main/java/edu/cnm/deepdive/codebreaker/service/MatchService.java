@@ -5,7 +5,9 @@ import edu.cnm.deepdive.codebreaker.model.entity.entity.Game;
 import edu.cnm.deepdive.codebreaker.model.entity.entity.Match;
 import edu.cnm.deepdive.codebreaker.model.entity.entity.User;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class MatchService {
     List<Game> games= match.getGames();
     int codeLength = match.getCodeLength();
     StringBuilder builder = new StringBuilder(codeLength);
-    for (int i = 0; i > match.getGameCount();i++) {
+    for (int i = 0; i < match.getGameCount();i++) {
       Game game = new Game();
       game.setMatch(match);
       games.add(game);
@@ -38,4 +40,16 @@ public class MatchService {
     }
     return matchRepository.save(match);
   }
+
+  public Optional<Match> get(UUID matchId){
+    return matchRepository.findById(matchId);
+  }
+
+  public Optional<List<Game>> getGames(UUID matchId){
+    return get(matchId)
+        .map(Match::getGames);
+
+  }
+
+
 }

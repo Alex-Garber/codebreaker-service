@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.codebreaker.model.entity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,10 +29,12 @@ public class Game {
   @NonNull
   @ManyToOne(fetch = FetchType.EAGER,optional = false)
   @JoinColumn(name = "match_id", nullable = false,updatable = false)
+  @JsonIgnore
   private Match match;
 
   @NonNull
   @Column(nullable = false,updatable = false)
+  @JsonIgnore
   private String code;
 
   @NonNull
