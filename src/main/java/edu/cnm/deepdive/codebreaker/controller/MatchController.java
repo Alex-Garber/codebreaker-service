@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/matches")
+@ExposesResourceFor(Match.class)
 public class MatchController {
 
   private final MatchService matchService;
